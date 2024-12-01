@@ -5,7 +5,6 @@ plugins {
 group = "lu.embellishedduck"
 version = "PRE-ALPHA"
 
-
 //=======================
 // INSTANTIATE VARIABLES
 //=======================
@@ -31,9 +30,12 @@ val lwjglNatives = Pair(
             else
                 "natives-linux"
         arrayOf("Mac OS X", "Darwin").any { name.startsWith(it) }     ->
-            "natives-macos-arm64"
+            "natives-macos${if (arch.startsWith("aarch64")) "-arm64" else ""}"
         arrayOf("Windows").any { name.startsWith(it) }                ->
-            "natives-windows-x86"
+            if (arch.contains("64"))
+                "natives-windows${if (arch.startsWith("aarch64")) "-arm64" else ""}"
+            else
+                "natives-windows-x86"
         else                                                                            ->
             throw Error("Unrecognized or unsupported platform. Please set \"lwjglNatives\" manually")
     }
@@ -131,7 +133,7 @@ dependencies {
     runtimeOnly("org.lwjgl", "lwjgl-tinyexr", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-tinyfd", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-vma", classifier = lwjglNatives)
-    if (lwjglNatives == "natives-macos-arm64") runtimeOnly("org.lwjgl", "lwjgl-vulkan", classifier = lwjglNatives)
+    if (lwjglNatives == "natives-macos" || lwjglNatives == "natives-macos-arm64") runtimeOnly("org.lwjgl", "lwjgl-vulkan", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-xxhash", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-yoga", classifier = lwjglNatives)
     runtimeOnly("org.lwjgl", "lwjgl-zstd", classifier = lwjglNatives)
