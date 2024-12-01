@@ -1,5 +1,6 @@
-package lu.embellishedduck.engine;
+package lu.embellishedduck.engine.core;
 
+import lu.embellishedduck.engine.io.input.KeyboardInputHandler;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
@@ -9,7 +10,22 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Game {
 
-    public static long window;
+    //=======================
+    // INSTANTIATE VARIABLES
+    //=======================
+    private static long window;
+
+    private final KeyboardInputHandler keyboardInputHandler = KeyboardInputHandler.instance;
+
+
+    //=============
+    // CONSTRUCTOR
+    //=============
+    public Game() {
+
+        keyboardInputHandler.setDefaultKeyBinds();
+
+    }//End of Constructor
 
     //========================
     // METHOD TO RUN THE GAME
@@ -75,6 +91,8 @@ public class Game {
         while (!glfwWindowShouldClose(window)) {
 
             glfwPollEvents();
+
+            keyboardInputHandler.handleKeys(window);
 
             glClear(GL_COLOR_BUFFER_BIT);//This thing is basically the context, clearing it sets every pixel to black. You can also set which color to clear it to as well.
 

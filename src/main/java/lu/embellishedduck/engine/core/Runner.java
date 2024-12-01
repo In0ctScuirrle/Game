@@ -1,4 +1,4 @@
-package lu.embellishedduck.engine;
+package lu.embellishedduck.engine.core;
 
 public class Runner {
 
