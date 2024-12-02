@@ -1,0 +1,6 @@
+{
+  "MoveForward" : "W",
+  "MoveBackward" : "S",
+  "MoveRight" : "D",
+  "MoveLeft" : "A"
+}

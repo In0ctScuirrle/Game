@@ -152,4 +152,7 @@ dependencies {
     implementation("org.projectlombok", "lombok", "1.18.36")
     annotationProcessor("org.projectlombok", "lombok", "1.18.36")
 
+    //Jsoniter
+    implementation("com.jsoniter", "jsoniter", "0.9.19")
+
 }
