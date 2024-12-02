@@ -1,5 +1,6 @@
 package lu.embellishedduck.engine.core;
 
+import lombok.extern.slf4j.Slf4j;
 import lu.embellishedduck.engine.io.input.KeyboardInputHandler;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -8,6 +9,7 @@ import org.lwjgl.opengl.GL;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
+@Slf4j
 public class Game {
 
     //=======================
@@ -45,12 +47,12 @@ public class Game {
     private void init() {
 
         //Setting the locations for errors to be outputted.
-        /// TODO Change this output to the logging files once I set that up
         GLFWErrorCallback.createPrint(System.err).set();
 
         //Error handling glfw, basically if this fails nothing is going to work
         if (!glfwInit()) {
 
+            log.error("Failed to initialize GLFW");
             throw new IllegalStateException("Failed to initialize GLFW");
 
         }//End of If Statement
@@ -62,6 +64,7 @@ public class Game {
         //Error handling the window, if this is 0 then the game technically works, but you won't see anything
         if (window == 0) {
 
+            log.error("Failed to create window");
             throw new IllegalStateException("Failed to create window");
 
         }//End of If Statement
@@ -79,6 +82,8 @@ public class Game {
 
         //This creates a context in the graphics card which lets it draw images (way more efficient than my old Swing game)
         GL.createCapabilities();
+
+        log.info("Game Launched Successfully");
 
     }//End of Method
 
