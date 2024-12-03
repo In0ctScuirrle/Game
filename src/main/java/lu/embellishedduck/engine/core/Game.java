@@ -20,15 +20,6 @@ public class Game {
     private final KeyboardInputHandler keyboardInputHandler = KeyboardInputHandler.instance;
 
 
-    //=============
-    // CONSTRUCTOR
-    //=============
-    public Game() {
-
-        keyboardInputHandler.setDefaultKeyBinds();
-
-    }//End of Constructor
-
     //========================
     // METHOD TO RUN THE GAME
     //========================

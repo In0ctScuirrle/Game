@@ -2,8 +2,8 @@ package lu.embellishedduck.engine.io.input;
 
 import org.lwjgl.glfw.GLFW;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum KeyboardInputHandler {
 
@@ -15,25 +15,35 @@ public enum KeyboardInputHandler {
     //=======================
     // INSTANTIATE VARIABLES
     //=======================
-    private Map<Integer, Runnable> keyBinds;
+    private static final List<Keybinding> keyBindings = new ArrayList<>();
 
+    //---------------------------------
+    // Populating the keyBindings list
+    //---------------------------------
+    static {
 
-    //=============
-    // CONSTRUCTOR
-    //=============
-    KeyboardInputHandler() {
+        keyBindings.add(Keybinding.up);
+        keyBindings.add(Keybinding.left);
+        keyBindings.add(Keybinding.down);
+        keyBindings.add(Keybinding.right);
 
-        keyBinds = new HashMap<>();
-
-    }//End of Class
+    }//End of Static Field
 
 
     //===================================
     // METHOD TO BIND A KEY TO AN ACTION
     //===================================
-    public void bindKey(int key, Runnable action) {
+    public void bindKey(String identifier, int keyCode) {
 
-        keyBinds.put(key, action);
+        for (Keybinding keyBinding : keyBindings) {
+
+            if (keyBinding.getIdentifier().equals(identifier)) {
+
+                keyBinding.setKeyCode(keyCode);
+
+            }//End of If Statement
+
+        }//End of For-Each Loop
 
     }//End of Method
 
@@ -43,15 +53,15 @@ public enum KeyboardInputHandler {
     //=======================
     public void handleKeys(long window) {
 
-        for (Map.Entry<Integer, Runnable> entry : keyBinds.entrySet()) {
+        for (Keybinding keyBinding : keyBindings) {
 
-            if (GLFW.glfwGetKey(window, entry.getKey()) == GLFW.GLFW_PRESS) {
+            if (GLFW.glfwGetKey(window, keyBinding.getKeyCode()) == GLFW.GLFW_PRESS) {
 
-                entry.getValue().run();
+                keyBinding.getAction().run();
 
             }//End of If Statement
 
-        }//End of For Loop
+        }//End of For-Each Loop
 
     }//End of Method
 
@@ -61,10 +71,10 @@ public enum KeyboardInputHandler {
     //=======================================
     public void setDefaultKeyBinds() {
 
-        bindKey(GLFW.GLFW_KEY_W, () -> System.out.println("Move Forward"));
-        bindKey(GLFW.GLFW_KEY_S, () -> System.out.println("Move Backward"));
-        bindKey(GLFW.GLFW_KEY_A, () -> System.out.println("Move Left"));
-        bindKey(GLFW.GLFW_KEY_D, () -> System.out.println("Move Right"));
+        bindKey("MoveForward", GLFW.GLFW_KEY_W);
+        bindKey("MoveLeft", GLFW.GLFW_KEY_A);
+        bindKey("MoveBackward", GLFW.GLFW_KEY_S);
+        bindKey("MoveDown", GLFW.GLFW_KEY_D);
 
     }//End of Method
 
